@@ -3,3 +3,48 @@ ALTER TABLE movil ADD UNIQUE (num);
 ALTER TABLE movil ADD UNIQUE (patente);
 ALTER TABLE movil ADD COLUMN activo BOOL DEFAULT TRUE;
 ALTER TABLE personal ADD COLUMN activo BOOL DEFAULT TRUE;
+
+CREATE INDEX idx_hora_llamado ON fichas(hora_llamado DESC);
+
+CREATE INDEX idx_fichas_opt ON fichas(traslado, obser_man(10), hora_llamado DESC);
+CREATE INDEX idx_convenio ON traslados(convenio);
+
+DELIMITER $$
+
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `afi` AS (
+SELECT
+  `afiliados`.`fecha_baja`     AS `fecha_baja`,
+  `afiliados`.`nro_doc`        AS `nro_doc`,
+  `afiliados`.`nombre1`        AS `nombre1`,
+  `afiliados`.`nombre2`        AS `nombre2`,
+  `afiliados`.`apellido`       AS `apellido`,
+  `afiliados`.`sexo`           AS `sexo`,
+  `obras_soc`.`nro_doc`        AS `cod_obras_soc`,
+  `obras_soc`.`descripcion`    AS `des_obras_soc`,
+  DATE_FORMAT(`afiliados`.`fecha_nac`,_utf8'%d-%m-%Y') AS `fecha_nac`,
+  `afiliados`.`cod_parentesco` AS `cod_parentesco`,
+  `afiliados`.`num_solici`     AS `num_solici`,
+  `afiliados`.`cod_plan`       AS `cod_plan`,
+  `afiliados`.`tipo_plan`      AS `tipo_plan`,
+  `planes`.`desc_plan`         AS `desc_plan`,
+  DATE_FORMAT(`afiliados`.`fecha_alta`,_utf8'%d-%m-%Y') AS `fecha_alta`,
+  `afiliados`.`titular`        AS `titular`,
+  DATE_FORMAT(`afiliados`.`fecha_act`,_utf8'%d-%m-%Y') AS `fecha_act`,
+  DATE_FORMAT(`afiliados`.`fecha_ing`,_utf8'%d-%m-%Y') AS `fecha_ing`,
+  `afiliados`.`pais`           AS `pais`,
+  `afiliados`.`categoria`      AS `cod_categoria`,
+  `categoria`.`descripcion`    AS `des_categoria`,
+  `mot_baja`.`codigo`          AS `cod_mot_baja`,
+  `mot_baja`.`descripcion`     AS `des_mot_baja`
+FROM ((((`afiliados`
+      LEFT JOIN `planes`
+        ON (((`planes`.`cod_plan` = `afiliados`.`cod_plan`)
+             AND (`planes`.`tipo_plan` = `afiliados`.`tipo_plan`))))
+     LEFT JOIN `categoria`
+       ON ((`categoria`.`categoria` = `afiliados`.`categoria`)))
+    LEFT JOIN `mot_baja`
+      ON ((`mot_baja`.`codigo` = `afiliados`.`cod_baja`)))
+   LEFT JOIN `obras_soc`
+     ON ((`obras_soc`.`nro_doc` = `afiliados`.`obra_numero`))))$$
+
+DELIMITER ;
