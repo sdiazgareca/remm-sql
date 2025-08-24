@@ -48,3 +48,25 @@ FROM ((((`afiliados`
      ON ((`obras_soc`.`nro_doc` = `afiliados`.`obra_numero`))))$$
 
 DELIMITER ;
+
+CREATE TABLE copago_tipo_pago (
+  id INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
+)
+
+-- Insertar valores iniciales
+INSERT INTO copago_tipo_pago (id, nombre) VALUES
+(1, 'EFECTIVO'),
+(2, 'CHEQUE'),
+(3, 'PENDIENTE'),
+(4, 'CASOS ESPECIALES'),
+(5, 'DESC. X PLANILLA'),
+(6, 'MEDIMEL'),
+(7, 'VIP PLATINIUM'),
+(8, 'VIP DORADO'),
+(9, 'ASISTENCIA INTEGRAL'),
+(11, 'S/COPAGO');
+
+ALTER TABLE planes 
+ADD COLUMN prioridad_call TINYINT(1) NOT NULL DEFAULT 0 AFTER estado;
