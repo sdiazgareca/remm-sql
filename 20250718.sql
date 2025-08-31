@@ -87,3 +87,7 @@ ALTER TABLE movilasig
 ADD COLUMN turno INT(11) NULL,
 ADD CONSTRAINT fk_movilasig_turno
   FOREIGN KEY (turno) REFERENCES turnos(id);
+
+ALTER TABLE turnos
+MODIFY COLUMN fecha_inicio DATETIME NULL,
+MODIFY COLUMN fecha_final DATETIME NULL;
