@@ -81,4 +81,9 @@ CREATE TABLE turnos (
   fecha_inicio DATETIME NOT NULL,
   fecha_final DATETIME NOT NULL,
   PRIMARY KEY (id)
-)
+);
+
+ALTER TABLE movilasig
+ADD COLUMN turno INT(11) NULL,
+ADD CONSTRAINT fk_movilasig_turno
+  FOREIGN KEY (turno) REFERENCES turnos(id);
