@@ -70,3 +70,15 @@ INSERT INTO copago_tipo_pago (id, nombre) VALUES
 
 ALTER TABLE planes 
 ADD COLUMN prioridad_call TINYINT(1) NOT NULL DEFAULT 0 AFTER estado;
+
+CREATE TABLE turnos (
+  id INT(11) NOT NULL AUTO_INCREMENT,   -- PK autoincrementable
+  numero INT(11) NOT NULL DEFAULT 0,
+  medico INT(11) DEFAULT 0,
+  paramedico INT(11) DEFAULT 0,
+  conductor INT(11) DEFAULT 0,
+  estado TINYINT(1) DEFAULT 0,
+  fecha_inicio DATETIME NOT NULL,
+  fecha_final DATETIME NOT NULL,
+  PRIMARY KEY (id)
+)
