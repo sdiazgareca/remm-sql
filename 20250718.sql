@@ -91,3 +91,9 @@ ADD CONSTRAINT fk_movilasig_turno
 ALTER TABLE turnos
 MODIFY COLUMN fecha_inicio DATETIME NULL,
 MODIFY COLUMN fecha_final DATETIME NULL;
+
+CREATE INDEX idx_fechas ON fichas(hora_llamado);
+CREATE INDEX idx_correlativo ON fichas(correlativo);
+CREATE INDEX idx_rut_correlativo ON sintomas_reg(rut, correlativo);
+CREATE INDEX idx_protocolo ON copago(protocolo);
+CREATE INDEX idx_cod ON traslados(cod);
