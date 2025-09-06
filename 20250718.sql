@@ -97,3 +97,17 @@ CREATE INDEX idx_correlativo ON fichas(correlativo);
 CREATE INDEX idx_rut_correlativo ON sintomas_reg(rut, correlativo);
 CREATE INDEX idx_protocolo ON copago(protocolo);
 CREATE INDEX idx_cod ON traslados(cod);
+
+-- 1. Crear índice en fichas para la columna correlativo
+ALTER TABLE fichas
+ADD INDEX idx_fichas_correlativo (correlativo);
+
+-- 2. Crear índice en sintomas_reg para la columna correlativo
+ALTER TABLE sintomas_reg
+ADD INDEX idx_sintomas_correlativo (correlativo);
+
+-- 3. Agregar la foreign key
+ALTER TABLE sintomas_reg
+ADD CONSTRAINT fk_sintomas_fichas
+FOREIGN KEY (correlativo)
+REFERENCES fichas(correlativo)
