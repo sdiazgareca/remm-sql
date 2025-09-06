@@ -111,3 +111,5 @@ ALTER TABLE sintomas_reg
 ADD CONSTRAINT fk_sintomas_fichas
 FOREIGN KEY (correlativo)
 REFERENCES fichas(correlativo)
+
+CREATE INDEX idx_planes_tipo_estado ON planes(tipo_plan, estado);
